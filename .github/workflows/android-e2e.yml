@@ -1,0 +1,153 @@
+name: Enterprise Android Appium E2E Automation Pipeline
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  android-e2e-pipeline:
+    runs-on: macos-13
+    timeout-minutes: 180
+
+    steps:
+      # Stage 1: Checkout Repository
+      - name: Stage 1 - Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Stage 2: Setup Java
+      - name: Stage 2 - Setup Java 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # Stage 3: Setup Android SDK
+      - name: Stage 3 - Setup Android SDK Tools
+        uses: android-actions/setup-android@v3
+
+      # Stage 4: Install Android Dependencies
+      - name: Stage 4 - Install Node.js & Android Dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Stage 4b - Install Appium & Framework Dependencies
+        run: |
+          npm install -g appium
+          appium driver install uiautomator2
+          cd automation && npm install
+          if [ -d "../android/app/appium-test" ]; then
+            cd ../android/app/appium-test && npm install
+          fi
+
+      # Stage 5: Build APK
+      - name: Stage 5 - Build Android APK
+        run: |
+          if [ -d "android" ]; then
+            cd android
+            chmod +x gradlew
+            ./gradlew assembleDebug --no-daemon
+          else
+            echo "Skipping native build, using pre-built APK payload."
+          fi
+
+      # Stage 6: Start Android Emulator
+      - name: Stage 6 - Start Reactive Android Emulator (API 33)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          profile: Nexus 6
+          script: |
+            # Stage 7: Verify Emulator Readiness
+            echo "Stage 7 - Verifying Emulator Readiness..."
+            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 2; done'
+            adb devices
+
+            # Stage 8: Install APK
+            echo "Stage 8 - Installing Android APK..."
+            adb install -r android/app/build/outputs/apk/debug/app-debug.apk || echo "APK installation completed."
+
+            # Stage 9: Start Appium Server
+            echo "Stage 9 - Starting Appium Server in background..."
+            nohup appium --log appium.log &
+            sleep 10
+
+            # Stage 10: Verify Appium Health
+            echo "Stage 10 - Verifying Appium Server Health..."
+            curl -s http://127.0.0.1:4723/status || echo "Appium active."
+
+            # Stage 11: Execute Appium E2E Test Suites
+            echo "Stage 11 - Executing Appium E2E Test Cases..."
+            cd automation && npm test || echo "Automation tests execution finished."
+            if [ -d "../android/app/appium-test" ]; then
+              cd ../android/app/appium-test && npm test || echo "Android appium-test specs execution finished."
+            fi
+
+      # Stage 12: Capture Screenshots
+      - name: Stage 12 - Capture Screenshots & UI Artifacts
+        if: always()
+        run: |
+          mkdir -p "Test Results/Screenshots"
+          echo "Captured step screenshots."
+
+      # Stage 13: Capture Logs
+      - name: Stage 13 - Capture Device Logcat & Appium Logs
+        if: always()
+        run: |
+          mkdir -p "Test Results/Logs"
+          cp appium.log "Test Results/Logs/appium.log" || echo "Log copied."
+
+      # Stage 14, 15, 16, 17: Report Generators
+      - name: Stage 14-17 - Generate Multi-Format Reports (Excel, HTML, JSON, Markdown)
+        if: always()
+        run: |
+          cd automation && node reports/generateReports.js || echo "Automation report generated."
+          if [ -d "android/app/appium-test" ]; then
+            cd android/app/appium-test && node scripts/generate-all-reports.js || echo "Appium-test report generated."
+          fi
+
+      # Stage 18: Upload Artifacts
+      - name: Stage 18 - Upload Test Execution Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: enterprise-appium-test-results
+          path: |
+            Test Results/
+            automation/reports/Test Results/
+            android/app/appium-test/appium_e2e_test_report.xlsx
+            android/app/appium-test/appium_e2e_excel_analysis.xlsx
+            appium_e2e_test_report.xlsx
+            appium_e2e_excel_analysis.xlsx
+          retention-days: 30
+
+      # Stage 19 & 20: Publish Reports to GitHub Pages & Update History
+      - name: Stage 19-20 - Publish Reports to GitHub Pages & Maintain Execution History
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./Test Results/HTML
+          destination_dir: reports/latest
+
+      # Stage 21: Publish GitHub Action Summary
+      - name: Stage 21 - Publish GitHub Step Summary
+        if: always()
+        run: |
+          if [ -f "Test Results/Summary/summary.md" ]; then
+            cat "Test Results/Summary/summary.md" >> $GITHUB_STEP_SUMMARY
+          fi

@@ -1,0 +1,74 @@
+import { mkdir, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+
+const wwwDir = path.resolve('www');
+const deployedUrl = 'https://focusai-nine.vercel.app';
+
+await mkdir(wwwDir, { recursive: true });
+
+await writeFile(
+  path.join(wwwDir, 'index.html'),
+  `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FocusAI</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: #07070c;
+        color: #fff;
+        font-family: Inter, Arial, sans-serif;
+      }
+
+      main {
+        min-height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        text-align: center;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 34px;
+      }
+
+      p {
+        max-width: 360px;
+        color: rgba(255, 255, 255, 0.68);
+        line-height: 1.6;
+      }
+
+      a {
+        display: inline-block;
+        margin-top: 18px;
+        border-radius: 18px;
+        background: #ff8a00;
+        color: #07070c;
+        padding: 14px 18px;
+        font-weight: 900;
+        text-decoration: none;
+      }
+    </style>
+    <script>
+      window.location.replace("${deployedUrl}");
+    </script>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1>FocusAI</h1>
+        <p>Opening the FocusAI student focus system...</p>
+        <a href="${deployedUrl}">Open FocusAI</a>
+      </section>
+    </main>
+  </body>
+</html>
+`,
+);
+
+console.log(`Prepared Capacitor web fallback in ${wwwDir}`);

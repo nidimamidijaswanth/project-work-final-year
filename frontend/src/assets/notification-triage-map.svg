@@ -1,0 +1,59 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="56" fill="#07070C"/>
+  <path d="M0 0h1200v760H0z" fill="url(#bg)"/>
+  <g opacity=".34">
+    <path d="M120 150h960M120 270h960M120 390h960M120 510h960M120 630h960M210 80v610M390 80v610M570 80v610M750 80v610M930 80v610" stroke="#FF8A00" stroke-width="1"/>
+  </g>
+  <rect x="440" y="134" width="320" height="492" rx="44" fill="#111117" stroke="#FF8A00" stroke-width="4"/>
+  <rect x="472" y="178" width="256" height="78" rx="24" fill="#1C1612" stroke="#FFCF33" stroke-opacity=".35"/>
+  <text x="600" y="213" fill="#FFCF33" font-family="Arial, sans-serif" font-size="20" font-weight="800" text-anchor="middle">FOCUS MODE</text>
+  <text x="600" y="241" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="middle" opacity=".75">Exam Sprint Active</text>
+  <circle cx="600" cy="388" r="112" fill="url(#core)" stroke="#FFCF33" stroke-width="7"/>
+  <text x="600" y="376" fill="#07070C" font-family="Arial, sans-serif" font-size="56" font-weight="900" text-anchor="middle">94</text>
+  <text x="600" y="414" fill="#07070C" font-family="Arial, sans-serif" font-size="18" font-weight="900" text-anchor="middle">FOCUS SCORE</text>
+  <rect x="488" y="535" width="224" height="48" rx="16" fill="#FF8A00"/>
+  <text x="600" y="565" fill="#07070C" font-family="Arial, sans-serif" font-size="17" font-weight="900" text-anchor="middle">BLOCK DISTRACTIONS</text>
+  <g filter="url(#glow)">
+    <path d="M218 212c82 0 132 55 222 70" stroke="#FF5A1F" stroke-width="10" stroke-linecap="round"/>
+    <path d="M218 380c86 0 144 0 222 0" stroke="#FFCF33" stroke-width="10" stroke-linecap="round"/>
+    <path d="M218 548c88 0 135-52 222-70" stroke="#FF8A00" stroke-width="10" stroke-linecap="round"/>
+    <path d="M982 212c-82 0-132 55-222 70" stroke="#FF5A1F" stroke-width="10" stroke-linecap="round"/>
+    <path d="M982 380c-86 0-144 0-222 0" stroke="#FFCF33" stroke-width="10" stroke-linecap="round"/>
+    <path d="M982 548c-88 0-135-52-222-70" stroke="#FF8A00" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="92" y="168" width="250" height="88" rx="24" fill="#14110F" stroke="#FF5A1F" stroke-width="2"/>
+    <text x="126" y="204" fill="#FFCF33" font-family="Arial, sans-serif" font-size="18" font-weight="900">WhatsApp</text>
+    <text x="126" y="232" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" opacity=".72">Batch until break</text>
+    <rect x="92" y="336" width="250" height="88" rx="24" fill="#14110F" stroke="#FFCF33" stroke-width="2"/>
+    <text x="126" y="372" fill="#FFCF33" font-family="Arial, sans-serif" font-size="18" font-weight="900">Calendar</text>
+    <text x="126" y="400" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" opacity=".72">Allow instantly</text>
+    <rect x="92" y="504" width="250" height="88" rx="24" fill="#14110F" stroke="#FF8A00" stroke-width="2"/>
+    <text x="126" y="540" fill="#FFCF33" font-family="Arial, sans-serif" font-size="18" font-weight="900">Instagram</text>
+    <text x="126" y="568" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" opacity=".72">Mute during focus</text>
+    <rect x="858" y="168" width="250" height="88" rx="24" fill="#14110F" stroke="#FF5A1F" stroke-width="2"/>
+    <text x="892" y="204" fill="#FFCF33" font-family="Arial, sans-serif" font-size="18" font-weight="900">Assignment</text>
+    <text x="892" y="232" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" opacity=".72">Urgent deadline</text>
+    <rect x="858" y="336" width="250" height="88" rx="24" fill="#14110F" stroke="#FFCF33" stroke-width="2"/>
+    <text x="892" y="372" fill="#FFCF33" font-family="Arial, sans-serif" font-size="18" font-weight="900">AI Coach</text>
+    <text x="892" y="400" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" opacity=".72">Recovery advice</text>
+    <rect x="858" y="504" width="250" height="88" rx="24" fill="#14110F" stroke="#FF8A00" stroke-width="2"/>
+    <text x="892" y="540" fill="#FFCF33" font-family="Arial, sans-serif" font-size="18" font-weight="900">Lecture App</text>
+    <text x="892" y="568" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" opacity=".72">Protect session</text>
+  </g>
+  <defs>
+    <radialGradient id="bg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(600 380) rotate(90) scale(380 600)">
+      <stop stop-color="#FF8A00" stop-opacity=".2"/>
+      <stop offset=".55" stop-color="#FF5A1F" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#07070C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="core" x1="506" y1="282" x2="690" y2="496" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFCF33"/>
+      <stop offset=".52" stop-color="#FF8A00"/>
+      <stop offset="1" stop-color="#FF5A1F"/>
+    </linearGradient>
+    <filter id="glow" x="62" y="142" width="1076" height="476" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+  </defs>
+</svg>

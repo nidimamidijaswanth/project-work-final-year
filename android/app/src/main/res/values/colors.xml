@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="focusai_ink">#07070C</color>
+    <color name="focusai_orange">#FF8A00</color>
+    <color name="focusai_pulse">#FF5A1F</color>
+    <color name="focusai_volt">#FFCF33</color>
+</resources>

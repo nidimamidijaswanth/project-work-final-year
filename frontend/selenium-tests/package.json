@@ -1,0 +1,29 @@
+{
+  "name": "focusai-selenium-web-tests",
+  "version": "1.0.0",
+  "description": "Selenium WebDriver E2E Automation Test Suite for FocusAI Web Frontend",
+  "main": "tests/login.test.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha tests/**/*.test.js --timeout 60000",
+    "test:login": "mocha tests/login.test.js --timeout 60000",
+    "report:excel": "node scripts/generate-all-selenium-reports.js"
+  },
+  "keywords": [
+    "selenium",
+    "selenium-webdriver",
+    "e2e-testing",
+    "web-testing",
+    "focusai",
+    "mocha"
+  ],
+  "author": "FocusAI QA Team",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^5.1.2",
+    "chromedriver": "^131.0.0",
+    "geckodriver": "^4.5.1",
+    "mocha": "^11.0.1",
+    "selenium-webdriver": "^4.27.0"
+  }
+}

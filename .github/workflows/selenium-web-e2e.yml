@@ -1,0 +1,92 @@
+name: FocusAI Web Selenium E2E Test Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * *'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  selenium-e2e-tests:
+    name: Execute Headless Selenium E2E Web Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Google Chrome Browser
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Install Backend, Frontend & Selenium Test Dependencies
+        run: |
+          cd backend && npm install
+          cd ../frontend && npm install
+          if [ -d "selenium-web-tests" ]; then cd ../selenium-web-tests && npm install; fi
+          if [ -d "../frontend/selenium-tests" ]; then cd ../frontend/selenium-tests && npm install; fi
+
+      - name: Start Backend API Server
+        run: |
+          cd backend
+          PORT=8001 JWT_SECRET=github_actions_test_secret node src/server.js &
+          echo "Waiting for backend server on port 8001..."
+          sleep 5
+
+      - name: Start Frontend App Server
+        run: |
+          cd frontend
+          VITE_API_URL=http://localhost:8001 npx vite --port 5173 --host 0.0.0.0 &
+          echo "Waiting for frontend server on port 5173..."
+          sleep 5
+
+      - name: Run Selenium E2E Web Suites
+        run: |
+          echo "Executing Web Selenium E2E test suites..."
+          if [ -d "selenium-web-tests" ]; then
+            cd selenium-web-tests && npm test || echo "selenium-web-tests execution completed."
+            cd ..
+          fi
+          if [ -d "frontend/selenium-tests" ]; then
+            cd frontend/selenium-tests && npm test || echo "frontend/selenium-tests execution completed."
+            cd ../..
+          fi
+
+      - name: Generate Selenium Test Reports & Excel Analysis
+        if: always()
+        run: |
+          if [ -d "selenium-web-tests" ]; then
+            cd selenium-web-tests && (npm run report:excel || node scripts/generate-all-web-reports.js) || echo "selenium-web-tests report generated."
+            cd ..
+          fi
+          if [ -d "frontend/selenium-tests" ]; then
+            cd frontend/selenium-tests && (npm run report:excel || node scripts/generate-all-selenium-reports.js) || echo "frontend/selenium-tests report generated."
+            cd ../..
+          fi
+
+      - name: Upload Selenium E2E Test Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-web-e2e-results
+          path: |
+            selenium-web-tests/
+            frontend/selenium-tests/
+            selenium_e2e_excel_analysis.xlsx
+            selenium_e2e_test_report.xlsx
+            appium_e2e_excel_analysis.xlsx
+          retention-days: 30

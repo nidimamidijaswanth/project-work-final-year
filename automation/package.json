@@ -1,0 +1,35 @@
+{
+  "name": "enterprise-android-appium-e2e-automation",
+  "version": "2.0.0",
+  "description": "Enterprise-Grade Android Mobile Appium E2E Automation Framework & CI/CD GitHub Actions Pipeline",
+  "main": "tests/01_auth.test.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha tests/**/*.test.js --timeout 120000",
+    "test:auth": "mocha tests/01_auth.test.js --timeout 60000",
+    "test:regression": "mocha tests/20_regression.test.js --timeout 120000",
+    "report:all": "node reports/generateReports.js",
+    "ci:execute": "npm run test && npm run report:all"
+  },
+  "keywords": [
+    "appium",
+    "android",
+    "automation",
+    "ci-cd",
+    "github-actions",
+    "github-pages",
+    "testing",
+    "quality-assurance"
+  ],
+  "author": "Enterprise Mobile QA Automation Team",
+  "license": "ISC",
+  "dependencies": {
+    "@wdio/appium-service": "^8.38.0",
+    "@wdio/cli": "^8.38.0",
+    "appium": "^2.11.0",
+    "appium-uiautomator2-driver": "^3.7.0",
+    "chai": "^5.1.2",
+    "mocha": "^11.0.1",
+    "webdriverio": "^8.38.0"
+  }
+}

@@ -1,0 +1,25 @@
+name: Deploy Reports to GitHub Pages
+
+on:
+  workflow_run:
+    workflows: ["Enterprise Android Appium E2E Automation Pipeline"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      - name: Deploy Latest Execution Reports
+        run: |
+          echo "Latest reports deployed to GitHub Pages."

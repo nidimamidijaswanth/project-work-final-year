@@ -1,0 +1,15 @@
+{
+  "appId": "com.focusai.wrapper",
+  "appName": "FocusAI",
+  "webDir": "www",
+  "server": {
+    "url": "https://focusai-nine.vercel.app",
+    "cleartext": false
+  },
+  "android": {
+    "path": ".",
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": true
+  }
+}

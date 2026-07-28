@@ -1,0 +1,22 @@
+export const appiumConfig = {
+  hostname: '127.0.0.1',
+  port: 4723,
+  path: '/',
+  capabilities: {
+    platformName: 'Android',
+    'appium:automationName': 'UiAutomator2',
+    'appium:deviceName': 'Android Emulator',
+    'appium:platformVersion': '13.0',
+    'appium:app': './android/app/build/outputs/apk/debug/app-debug.apk',
+    'appium:appPackage': 'com.focusai.app',
+    'appium:appActivity': 'com.focusai.app.MainActivity',
+    'appium:autoGrantPermissions': true,
+    'appium:newCommandTimeout': 300,
+    'appium:noReset': false,
+    'appium:fullReset': false,
+    'appium:ensureWebviewsHavePages': true,
+    'appium:nativeWebScreenshot': true,
+  },
+  logLevel: 'info',
+  timeout: 60000,
+};

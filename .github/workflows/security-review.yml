@@ -1,0 +1,67 @@
+name: DevSecOps Backend Security Review & Audit Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  security-events: write
+  actions: read
+  contents: read
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Auto-Detect Backend Stack & Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: |
+          if [ -d "backend" ]; then
+            cd backend && npm install
+          fi
+
+      - name: Run Semgrep SAST Code Scan
+        uses: semgrep/actions@v1
+        with:
+          config: p/default
+
+      - name: Run Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+
+      - name: Run Gitleaks Secrets Detection
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Node Backend Tests
+        run: |
+          if [ -d "backend" ]; then
+            cd backend && npm run build
+          fi
+
+      - name: Execute Performance Load Smoke Test (k6)
+        uses: grafana/k6-action@v0.3.0
+        with:
+          filename: 'Vulnerability Test Results/k6-load-test.js'
+
+      - name: Upload Security Audit Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-security-audit-report
+          path: Vulnerability Test Results/
+          retention-days: 30

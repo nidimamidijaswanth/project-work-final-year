@@ -85,10 +85,11 @@ jobs:
 
       - name: Make Gradlew Executable & Build Debug APK
         run: |
+          rm -rf android/.gradle .gradle android/local.properties local.properties
           if [ -d "android" ]; then
             cd android
             chmod +x gradlew
-            ./gradlew assembleDebug --no-daemon
+            ./gradlew assembleDebug --no-daemon -Dorg.gradle.java.home="$JAVA_HOME"
           fi
 
       - name: Upload Android Debug APK Artifact

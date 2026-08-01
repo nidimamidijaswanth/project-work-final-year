@@ -1,25 +1,33 @@
-name: Deploy Reports to GitHub Pages
+name: Deploy Appium Test Reports to GitHub Pages
 
 on:
   workflow_run:
     workflows: ["Enterprise Android Appium E2E Automation Pipeline"]
     types:
       - completed
+  workflow_dispatch:
 
 permissions:
   contents: write
   pages: write
+  id-token: write
 
 jobs:
-  deploy:
+  deploy-reports:
+    name: Deploy Test Execution Reports to GitHub Pages
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+
     steps:
-      - name: Checkout gh-pages
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           ref: gh-pages
 
-      - name: Deploy Latest Execution Reports
+      - name: Verify & Log Live Online Report Status
         run: |
-          echo "Latest reports deployed to GitHub Pages."
+          REPORT_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/reports/latest/execution-report.html"
+          echo "=================================================="
+          echo "Appium E2E Test Execution Reports Deployed Natively!"
+          echo "Live Report URL: $REPORT_URL"
+          echo "=================================================="

@@ -27,12 +27,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Step 2: Setup Java 17
-      - name: Setup Java 17 (Temurin)
+      # Step 2: Setup Java 21
+      - name: Setup Java 21 (Temurin)
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       # Step 3: Setup Node.js & Install Appium + Suite Dependencies
       - name: Setup Node.js 20 & Install Appium Server & Drivers
@@ -63,12 +63,13 @@ jobs:
           if [ -d "android" ]; then
             cd android
             npm install --no-audit --no-fund || true
+            node scripts/prepare-web.js || true
             chmod +x gradlew
-            ./gradlew assembleDebug --no-daemon -Dorg.gradle.java.home="$JAVA_HOME"
+            ./gradlew assembleDebug --no-daemon
             cd ..
           elif [ -f "./gradlew" ]; then
             chmod +x gradlew
-            ./gradlew assembleDebug --no-daemon -Dorg.gradle.java.home="$JAVA_HOME"
+            ./gradlew assembleDebug --no-daemon
           fi
 
       # Step 6: Execute Android Emulator Runner (API 29, Nexus 6) & Appium Tests

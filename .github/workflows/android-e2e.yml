@@ -60,16 +60,18 @@ jobs:
       - name: Build Android Debug APK
         run: |
           rm -rf android/.gradle .gradle android/local.properties local.properties
+          unset ORG_GRADLE_PROJECT_org_gradle_java_home
+          export GRADLE_OPTS="-Dorg.gradle.java.home=$JAVA_HOME"
           if [ -d "android" ]; then
             cd android
             npm install --no-audit --no-fund || true
             node scripts/prepare-web.js || true
             chmod +x gradlew
-            ./gradlew assembleDebug --no-daemon
+            ./gradlew assembleDebug --no-daemon -Dorg.gradle.java.home="$JAVA_HOME"
             cd ..
           elif [ -f "./gradlew" ]; then
             chmod +x gradlew
-            ./gradlew assembleDebug --no-daemon
+            ./gradlew assembleDebug --no-daemon -Dorg.gradle.java.home="$JAVA_HOME"
           fi
 
       # Step 6: Execute Android Emulator Runner (API 29, Nexus 6) & Appium Tests

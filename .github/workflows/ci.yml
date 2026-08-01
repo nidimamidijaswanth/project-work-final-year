@@ -74,6 +74,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Setup Java 17 (Temurin)
         uses: actions/setup-java@v4
         with:
@@ -83,11 +88,12 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Make Gradlew Executable & Build Debug APK
+      - name: Install Android Capacitor Dependencies & Build Debug APK
         run: |
           rm -rf android/.gradle .gradle android/local.properties local.properties
           if [ -d "android" ]; then
             cd android
+            npm install --no-audit --no-fund || true
             chmod +x gradlew
             ./gradlew assembleDebug --no-daemon -Dorg.gradle.java.home="$JAVA_HOME"
           fi

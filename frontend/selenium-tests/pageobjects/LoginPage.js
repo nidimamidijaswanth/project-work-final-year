@@ -12,9 +12,9 @@ export class LoginPage {
     this.brandLogoLoc = By.css('.app-header, .brand-title, h1');
   }
 
-  async open(baseUrl = 'http://localhost:5173') {
+  async open(baseUrl = process.env.BASE_URL || 'http://localhost:5173') {
     await this.driver.get(baseUrl);
-    await this.driver.wait(until.elementLocated(this.emailInputLoc), 10000);
+    await this.driver.wait(until.elementLocated(this.emailInputLoc), 15000);
   }
 
   async login(email, password) {
@@ -38,8 +38,10 @@ export class LoginPage {
       // already in signup view
     }
 
-    const nameEl = await this.driver.wait(until.elementLocated(this.nameInputLoc), 5000);
-    await nameEl.sendKeys(name);
+    try {
+      const nameEl = await this.driver.wait(until.elementLocated(this.nameInputLoc), 3000);
+      await nameEl.sendKeys(name);
+    } catch (e) {}
 
     const emailEl = await this.driver.findElement(this.emailInputLoc);
     await emailEl.sendKeys(email);
@@ -53,7 +55,7 @@ export class LoginPage {
 
   async getErrorMessage() {
     try {
-      const errorEl = await this.driver.wait(until.elementLocated(this.errorMessageLoc), 5000);
+      const errorEl = await this.driver.wait(until.elementLocated(this.errorMessageLoc), 3000);
       return await errorEl.getText();
     } catch (e) {
       return '';

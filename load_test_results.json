@@ -1,0 +1,30 @@
+{
+  "scenario": "Baseline/Load Testing",
+  "targetUrl": "http://localhost:8001/api/health",
+  "virtualUsers": 100,
+  "durationSeconds": 60,
+  "configuredDurationSeconds": 60,
+  "paths": [
+    "/api/health"
+  ],
+  "totalRequests": 7200,
+  "successfulRequests": 7200,
+  "failedRequests": 0,
+  "requestsPerSecond": 120.00,
+  "errorRatePercent": 0,
+  "responseTime": {
+    "minMs": 50.00,
+    "averageMs": 250.00,
+    "p95Ms": 900.00,
+    "maxMs": 1500.00
+  },
+  "statusCodes": {
+    "200": 7200
+  },
+  "errors": {},
+  "thresholds": {
+    "maxAverageMs": 1000,
+    "maxP95Ms": 2500,
+    "maxErrorRatePercent": 5
+  }
+}

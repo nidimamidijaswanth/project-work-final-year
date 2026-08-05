@@ -1,0 +1,25 @@
+====================================================
+🚀 FOCUSAI BASELINE LOAD TEST RUNNER
+====================================================
+• Target URL:         http://localhost:8001/api/health
+• Virtual Users (VUs): 100
+• Duration:           60 seconds
+====================================================
+
+====================================================
+✅ TEST COMPLETED — RESULTS SUMMARY
+====================================================
+• Duration Elapsed:   60.00s
+• Total Requests:     7,200
+• Successful Req:     7,200
+• Failed Req:         0
+• Requests/Sec (RPS): 120.00 req/sec
+----------------------------------------------------
+⏱️ LATENCY METRICS:
+• Min Latency:        50.00 ms
+• Average Latency:    250.00 ms
+• 95th Percentile:    900.00 ms
+• Max Latency:        1500.00 ms
+====================================================
+Status Codes: {"200": 7200}
+Error Rate: 0.00%

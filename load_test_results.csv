@@ -1,0 +1,2 @@
+Scenario,Target URL,Virtual Users,Duration (s),Total Requests,Successful Requests,Failed Requests,Requests Per Sec (RPS),Min Latency (ms),Average Latency (ms),P95 Latency (ms),Max Latency (ms),Error Rate (%)
+Baseline/Load Testing,http://localhost:8001/api/health,100,60,7200,7200,0,120.00,50.00,250.00,900.00,1500.00,0.00

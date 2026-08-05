@@ -1,0 +1,13 @@
+{
+  "name": "focusai-e2e-security",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "FocusAI Web Frontend Security Suite — SAST Scanner",
+  "scripts": {
+    "scan": "node scripts/generateWebSecuritySuite.js"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0"
+  }
+}

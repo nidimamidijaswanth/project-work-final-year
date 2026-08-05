@@ -1,0 +1,13 @@
+{
+  "name": "focusai-backend-security",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "FocusAI Backend Security Suite — SAST & Dependency Scanner",
+  "scripts": {
+    "scan": "node scripts/generateSecuritySuite.js"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0"
+  }
+}

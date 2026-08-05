@@ -35,10 +35,10 @@ jobs:
           java-version: '21'
 
       # Step 3: Setup Node.js & Install Appium + Suite Dependencies
-      - name: Setup Node.js 20 & Install Appium Server & Drivers
+      - name: Setup Node.js 22 & Install Appium Server & Drivers
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install Appium Global & Framework Dependencies
         run: |

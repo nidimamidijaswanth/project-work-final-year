@@ -2,7 +2,7 @@ name: Deploy Appium Test Reports to GitHub Pages
 
 on:
   workflow_run:
-    workflows: ["Enterprise Android Appium E2E Automation Pipeline"]
+    workflows: ["Mobile Appium E2E (1,111 Android Tests) & CI Emulator Runner"]
     types:
       - completed
   workflow_dispatch:

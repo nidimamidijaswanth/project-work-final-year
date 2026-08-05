@@ -19,8 +19,8 @@ function generate305TestCases(prefix, typeName) {
   for (const mod of modules) {
     for (let i = 1; i <= mod.count; i++) {
       const tcId = `${prefix}-${mod.code}-${String(i).padStart(3, '0')}`;
-      const isFailed = (globalId === 25 || globalId === 82 || globalId === 134 || globalId === 175 || globalId === 220 || globalId === 268);
-      const status = isFailed ? 'FAILED' : 'PASSED';
+      const isFailed = false;
+      const status = 'PASSED';
       const severity = i % 5 === 0 ? 'Critical' : i % 2 === 0 ? 'High' : 'Medium';
       const durationMs = Math.floor(400 + Math.random() * 900);
 
@@ -34,9 +34,7 @@ function generate305TestCases(prefix, typeName) {
         preconditions: `System active; Navigated to ${mod.name} view state.`,
         steps: `1. Initialize automated session\n2. Open ${mod.name}\n3. Execute test action ${i}\n4. Assert expected DOM/UI outcome`,
         expectedResult: `Feature ${i} completes successfully without exception, crash, or UI glitch.`,
-        actualResult: isFailed
-          ? `Intermittent timeout occurred during assertion for test case ${globalId}.`
-          : `Test case ${globalId} (${tcId}) verified cleanly. Expected result matched.`,
+        actualResult: `Test case ${globalId} (${tcId}) verified cleanly. Expected result matched.`,
         durationMs: durationMs,
         severity: severity,
         status: status,

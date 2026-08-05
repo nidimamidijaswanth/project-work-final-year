@@ -38,7 +38,7 @@ jobs:
       - name: Install Frontend Dependencies
         run: |
           cd frontend
-          npm ci || npm install
+          npm ci || npm install --legacy-peer-deps --no-audit
 
       - name: Build Vite Bundle
         run: |
@@ -184,10 +184,9 @@ jobs:
 
       - name: Install FocusAI Web Security Dependencies
         run: |
-          mkdir -p FocusAIE2E/scripts
           cd FocusAIE2E
-          npm init -y || true
-          npm install exceljs
+          npm install
+
 
       - name: Execute FocusAI Web Frontend Security Review Pipeline
         env:
